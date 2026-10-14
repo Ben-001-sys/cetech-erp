@@ -1,6 +1,6 @@
 # CETECH ERPNext — Hetzner + Dokploy
 
-**Status: DEPLOYED ON HETZNER — ERPNext site installation completed 2026-10-14.** Browser login, HTTPS validation, scheduler activation, and backup/restore testing are still outstanding.
+**Status: DEPLOYED ON HETZNER — ERPNext site installed and HTTPS login page visible on 2026-10-14.** Administrator authentication, company setup, and backup/restore testing are still outstanding.
 
 **Confirmed intended site hostname:** `erpnext.benuel.dedyn.io` (DNS and HTTPS routing must be verified before deployment).
 
@@ -32,7 +32,7 @@ This repository holds the Docker Compose configuration for CETECH's ERPNext stac
 5. Verify the DNS A record for **erpnext.benuel.dedyn.io** points to the intended Hetzner server; then add this hostname through Dokploy Domains, pointing to **frontend:8080** with HTTPS.
 6. Review **Preview Compose** and only then deploy.
 7. **COMPLETED 2026-10-14:** Created the ERPNext site **erpnext.benuel.dedyn.io** using Bench in the backend container; Frappe and ERPNext DocTypes both reached 100%.
-8. **NEXT:** Confirm `bench --site erpnext.benuel.dedyn.io list-apps`, enable and verify the scheduler, test HTTPS and Administrator login, then configure backups and restore tests.
+8. **VERIFIED 2026-10-14:** `bench --site erpnext.benuel.dedyn.io list-apps` listed Frappe 16.52.0 and ERPNext 16.50.0; the scheduler was enabled and its status verified. The browser displayed the ERPNext sign-in page at https://erpnext.benuel.dedyn.io after correcting Traefik domain routing for Compose project `cetecherpnext-erpfrontend-otl3fx`. **NEXT:** Authenticate as Administrator, complete the company wizard, test authorization, and establish off-server backups and restoration procedures.
 
 **Never run docker compose down -v, delete active database volumes, or assume changing DB_PASSWORD in Dokploy rotates the initialized MariaDB password.**
 
