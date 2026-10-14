@@ -1,6 +1,8 @@
 # CETECH ERPNext — Dokploy deployment runbook
 
-**Status: prepared; not deployed.** Target: existing Hetzner server running Dokploy. Intended hostname: **erpnext.benuel.dedyn.io** (confirmed by deployment owner; public DNS and certificate are not yet verified).
+**Status: deployed and site installed 2026-10-14; post-install verification pending.**
+
+**2026-10-14 installation evidence:** Existing Dokploy Compose project `cetecherpnext-erpfrontend-otl3fx`, with healthy MariaDB and successful configurator. Bench `new-site erpnext.benuel.dedyn.io --db-root-username root --mariadb-user-host-login-scope='%' --install-app erpnext` completed Frappe and ERPNext DocTypes at 100%. Bench reported `SystemSettings.enable_scheduler is UNSET` and `Scheduler is disabled`. Do not run `new-site` again. Next: validate list-apps, enable scheduler, check HTTPS/login, and configure backups. Target: existing Hetzner server running Dokploy. Intended hostname: **erpnext.benuel.dedyn.io** (confirmed by deployment owner; public DNS and certificate are not yet verified).
 
 ## 1. Inspect the existing server (read-only)
 
@@ -85,3 +87,15 @@ References:
 - https://github.com/frappe/frappe_docker/blob/main/docs/04-operations/01-site-operations.md
 - https://docs.dokploy.com/docs/core/docker-compose
 - https://docs.dokploy.com/docs/core/docker-compose/domains
+
+## 6. Post-install verification (2026-10-14)
+
+Run in the currently active backend container `cetecherpnext-erpfrontend-otl3fx-backend-1`:
+
+```bash
+bench --site erpnext.benuel.dedyn.io list-apps
+bench --site erpnext.benuel.dedyn.io enable-scheduler
+bench --site erpnext.benuel.dedyn.io scheduler status
+```
+
+The scheduler was disabled immediately after installation; mark as enabled only after the status output confirms it. Verify HTTPS and Administrator sign-in separately. Preserve all named volumes and do not recreate the site.
