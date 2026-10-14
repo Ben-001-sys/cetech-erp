@@ -75,3 +75,25 @@
 - **Next action:** Open the existing Company record's **Accounts** tab, capture the settings without pressing Save or editing; review defaults, discount postings, cost centers, write-off/exchange gains, and tax configuration. Then proceed to Buying and Selling and Stock tabs.
 
 **No credentials, official tax ID values, or personal information should be committed to this public register.**
+
+## Evidence update — 2026-10-14: Company > Accounts tab
+
+**Source:** Screenshot of CETECH Ghana > Accounts (user-provided). **Status:** CONFIGURED / REVIEWED (not transaction-tested).
+
+- Chart of Accounts created from **Standard Template**, template **Standard**.
+- Bank account **unset**; Cash account **Cash - CETECH-GH**.
+- Receivable **Debtors - CETECH-GH**, Payable **Creditors - CETECH-GH**.
+- Sales income **Sales - CETECH-GH**, Cost of Goods Sold **Cost of Goods Sold - CETECH-GH**, Write Off **Write Off - CETECH-GH**.
+- Default Cost Center **Main - CETECH-GH**; Default Payment Discount Account **Cash - CETECH-GH**: **HIGH-PRIORITY ACCOUNTING REVIEW**, likely incorrect posting account for settlement discounts. Do not submit test payments with a discount before rectification.
+- Exchange Gain/Loss and Round Off accounts populated; Unrealized Exchange Gain/Loss account unset; revaluation automation unchecked.
+- Round-off Cost Center **Main - CETECH-GH**. Default Payment Terms Template, Finance Book, deferred revenue and deferred expense accounts are blank.
+- **Book Advance Payments in Separate Party Account** unchecked; allocation preference **Oldest of Invoice or Advance**.
+- Asset depreciation/disposal/Capital Work In Progress/Asset Received Not Billed defaults mostly present; some text truncated in screenshot so exact account names require UI check.
+- **Exception Budget Approver Role** unset; Series for Asset Depreciation Entry unset.
+- **Next check:** Open Chart of Accounts under Accounting. Inspect whether `Discount Allowed - CETECH-GH` (expense), `Discount Received - CETECH-GH` (income), valid bank ledger(s), and other account types exist. Verify posted ledger structure in sandbox only after defaults are appropriate. Do not create financial transactions or change the default Discount Account to Cash again.
+
+Source references:
+- https://docs.frappe.io/erpnext/company-setup
+- https://docs.frappe.io/erpnext/managing-invoice-discount-in-the-payment-entry
+- https://docs.frappe.io/erpnext/accounts-settings
+- https://docs.frappe.io/erpnext/chart-of-accounts
