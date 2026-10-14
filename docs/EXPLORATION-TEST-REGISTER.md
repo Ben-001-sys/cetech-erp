@@ -115,3 +115,7 @@ Displayed standard account tree includes:
 - **Next checkpoint:** open Chart of Accounts company selector, verify whether **CETECH Ghana** is a distinct option; select it if present, then take a screenshot of its Assets/Income/Expenses tree. Do not create accounts or post transactions until Company selection is confirmed.
 
 Documentation: https://docs.frappe.io/erpnext/chart-of-accounts ; https://docs.frappe.io/erpnext/company-setup ; https://docs.frappe.io/erpnext/managing-invoice-discount-in-the-payment-entry
+
+## 2026-10-14 — Company selector confirmation
+
+The operator confirmed that Chart of Accounts was changed to **CETECH Ghana**. Earlier screenshot with CETECH selected should **not** be treated as the CETECH Ghana ledger without additional verification. No assumption that the two are the same company. The next exercise is to inspect the existing `Bank Charges` expense ledger and, only if a suitable discount ledger is missing within the selected company, create a clearly labeled **TEST - Discount Allowed** leaf account under **Indirect Expenses** (Expense root, GHS, non-group). No postings have been created and no Company default updated. Record screenshot and newly created Account ID after completing.
