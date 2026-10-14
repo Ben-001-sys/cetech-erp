@@ -1,0 +1,27 @@
+name: Validate ERPNext Compose
+
+on:
+  push:
+    paths:
+      - "docker-compose.yml"
+      - ".github/workflows/validate-compose.yml"
+  pull_request:
+    paths:
+      - "docker-compose.yml"
+      - ".github/workflows/validate-compose.yml"
+  workflow_dispatch:
+
+jobs:
+  compose-config:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Validate Compose syntax and interpolation
+        env:
+          ERPNEXT_VERSION: v16.50.0
+          DB_PASSWORD: ci-placeholder-not-a-production-password
+        run: |
+          docker compose -f docker-compose.yml config --quiet
+          docker compose -f docker-compose.yml config --services
