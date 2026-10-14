@@ -44,25 +44,20 @@ services:
     <<: *frappe-image
     restart: "no"
     entrypoint: ["bash", "-c"]
-    # IMPORTANT: bash -c needs the full script as ONE argv item.
-    # A scalar Compose command is shell-word split and can silently run only 'ls'.
+    # Use fixed internal Docker service addresses here.
+    # Do not interpolate $DB_HOST or $REDIS_QUEUE in Dokploy/Compose.
+    # bash -c receives exactly one script argument.
     command:
       - |
         set -eu
         ls -1 apps > sites/apps.txt
-        bench set-config -g db_host "$DB_HOST"
-        bench set-config -gp db_port "$DB_PORT"
-        bench set-config -g redis_cache "redis://$REDIS_CACHE"
-        bench set-config -g redis_queue "redis://$REDIS_QUEUE"
-        bench set-config -g redis_socketio "redis://$REDIS_QUEUE"
-        bench set-config -gp socketio_port "$SOCKETIO_PORT"
+        bench set-config -g db_host db
+        bench set-config -gp db_port 3306
+        bench set-config -g redis_cache redis://redis-cache:6379
+        bench set-config -g redis_queue redis://redis-queue:6379
+        bench set-config -g redis_socketio redis://redis-queue:6379
+        bench set-config -gp socketio_port 9000
         bench set-config -g chromium_path /usr/lib/chromium/chromium-headless-shell
-    environment:
-      DB_HOST: db
-      DB_PORT: "3306"
-      REDIS_CACHE: redis-cache:6379
-      REDIS_QUEUE: redis-queue:6379
-      SOCKETIO_PORT: "9000"
     depends_on:
       db:
         condition: service_healthy
