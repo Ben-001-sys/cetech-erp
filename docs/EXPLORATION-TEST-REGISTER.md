@@ -97,3 +97,21 @@ Source references:
 - https://docs.frappe.io/erpnext/managing-invoice-discount-in-the-payment-entry
 - https://docs.frappe.io/erpnext/accounts-settings
 - https://docs.frappe.io/erpnext/chart-of-accounts
+
+## Evidence update — 2026-10-14: Chart of Accounts tree
+
+**Source:** User-provided screenshot (ERPNext Chart of Accounts). **Status: REVIEWED; COMPANY SELECTION NOT YET VERIFIED.**
+
+**Critical discrepancy:** Chart of Accounts dropdown and tree title read **CETECH**, whereas the Company form reviewed earlier read **CETECH Ghana** (abbreviation **CETECH-GH**). These might be separate company records. Before creating or changing accounts, confirm Company selector and whether both Company records exist. Accounts may not be shared between Companies.
+
+Displayed standard account tree includes:
+- Assets > Current Assets > Accounts Receivable > Debtors; Bank Accounts group with **no visible ledger child**; Cash In Hand > Cash; other stock/fixed assets.
+- Liabilities > Accounts Payable > Creditors; taxes, loans and accruals.
+- Equity, Income > Direct Income > Sales/Service.
+- Expenses > Direct Expenses > Cost of Goods Sold and Indirect Expenses including Bank Charges, Round Off, Write Off, etc.
+- All displayed balances currently GHS 0.00; verify in correct Company.
+- **No explicit Discount Allowed / Discount Received ledger is visible** in the expanded account tree. The previous Company form had an inappropriate Cash default for Payment Discount Account. Confirm company identity first, then locate/create an appropriate expense/contra-revenue ledger (with accounting sign-off) and change the *correct* Company's default.
+- Before Bank testing, a Bank-type ledger and its Bank Account linkage may need creation; the Bank Accounts group appeared empty in the screenshot.
+- **Next checkpoint:** open Chart of Accounts company selector, verify whether **CETECH Ghana** is a distinct option; select it if present, then take a screenshot of its Assets/Income/Expenses tree. Do not create accounts or post transactions until Company selection is confirmed.
+
+Documentation: https://docs.frappe.io/erpnext/chart-of-accounts ; https://docs.frappe.io/erpnext/company-setup ; https://docs.frappe.io/erpnext/managing-invoice-discount-in-the-payment-entry
