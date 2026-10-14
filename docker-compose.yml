@@ -82,6 +82,9 @@ services:
   websocket:
     <<: *frappe-image
     command: ["node", "/home/frappe/frappe-bench/apps/frappe/socketio.js"]
+    environment:
+      FRAPPE_REDIS_CACHE: redis://redis-cache:6379
+      FRAPPE_REDIS_QUEUE: redis://redis-queue:6379
     depends_on:
       configurator:
         condition: service_completed_successfully
@@ -110,6 +113,9 @@ services:
   queue-short:
     <<: *frappe-image
     command: ["bench", "worker", "--queue", "short,default"]
+    environment:
+      FRAPPE_REDIS_CACHE: redis://redis-cache:6379
+      FRAPPE_REDIS_QUEUE: redis://redis-queue:6379
     depends_on:
       configurator:
         condition: service_completed_successfully
@@ -118,6 +124,9 @@ services:
   queue-long:
     <<: *frappe-image
     command: ["bench", "worker", "--queue", "long,default,short"]
+    environment:
+      FRAPPE_REDIS_CACHE: redis://redis-cache:6379
+      FRAPPE_REDIS_QUEUE: redis://redis-queue:6379
     depends_on:
       configurator:
         condition: service_completed_successfully
