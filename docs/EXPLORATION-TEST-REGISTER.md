@@ -26,7 +26,7 @@
 
 | Area | Focus | Status | Evidence / next action |
 | --- | --- | --- | --- |
-| Company | Name, abbreviation, country, GHS, fiscal year, chart of accounts, warehouse defaults | RESEARCHED | Open Setup > Company; inspect values without making financial changes |
+| Company | Name, abbreviation, country, GHS, fiscal year, chart of accounts, warehouse defaults | CONFIGURED | 2026-10-14: Company form observed as CETECH Ghana; details reviewed, Accounts tab not yet inspected |
 | System Settings | Time zone, language, number/date format, site defaults, password policy | RESEARCHED | Review against Africa/Accra and CETECH sandbox needs |
 | Organization | Departments, organizational structure, employees/contacts | RESEARCHED | Examine available models; do not import real staff |
 | Access | System vs Website users, roles and role profiles, permissions, restrictions | RESEARCHED | Two test users, allow and deny checks |
@@ -61,3 +61,17 @@
 - https://docs.frappe.io/erpnext/selling
 - https://docs.frappe.io/erpnext/stock-entry
 - https://docs.frappe.io/erpnext/email-account
+
+## Evidence update — 2026-10-14: Company details reviewed
+
+**Source:** User-provided ERPNext Setup > Company > Details screenshot. **Status:** CONFIGURED / VISUALLY VERIFIED (not transaction-tested).
+
+- Company name displayed: **CETECH Ghana**; abbreviation **CETECH-GH**.
+- Country **Ghana**; default and reporting currency **GHS**; **Is Group** unchecked; Parent Company unset.
+- Default Letter Head **Company Letterhead - Grey**; Default Holiday List **Christmas Holiday** (contents not yet checked); website/domain field `cetechbpa.com/gh` (purpose and correctness not yet verified).
+- Date of Establishment empty; Tax ID/registration details present but intentionally **not copied into this public repository**.
+- Activity history indicates default Cash `Cash - CETECH-GH`, Receivable `Debtors - CETECH-GH`, Payable `Creditors - CETECH-GH`, and Payment Discount `Cash - CETECH-GH`. **Accounting review required**: Cash is generally not an appropriate payment-discount posting account; verify type/usage before test transactions.
+- Activity history shows Monthly Sales Target of **GHS 500,000** and Credit Limit of **GHS 1,000**. Confirm whether these are intentional sandbox values before workflow tests.
+- **Next action:** Open the existing Company record's **Accounts** tab, capture the settings without pressing Save or editing; review defaults, discount postings, cost centers, write-off/exchange gains, and tax configuration. Then proceed to Buying and Selling and Stock tabs.
+
+**No credentials, official tax ID values, or personal information should be committed to this public register.**
