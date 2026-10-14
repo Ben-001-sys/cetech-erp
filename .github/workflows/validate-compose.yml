@@ -25,3 +25,42 @@ jobs:
         run: |
           docker compose -f docker-compose.yml config --quiet
           docker compose -f docker-compose.yml config --services
+
+      - name: Validate configurator execution and internal Redis endpoints
+        env:
+          ERPNEXT_VERSION: v16.50.0
+          DB_PASSWORD: ci-placeholder-not-a-production-password
+        run: |
+          docker compose -f docker-compose.yml config --format json > /tmp/erpnext-compose.json
+          python3 - <<'PY'
+          import json
+          
+          with open("/tmp/erpnext-compose.json", encoding="utf-8") as source:
+              services = json.load(source)["services"]
+          
+          configurator = services["configurator"]
+          assert configurator["entrypoint"] == ["bash", "-c"], configurator["entrypoint"]
+          script_args = configurator["command"]
+          assert isinstance(script_args, list) and len(script_args) == 1, script_args
+          script = script_args[0]
+          assert script.lstrip().startswith("set -eu"), script
+          for setting in (
+              "db_host",
+              "db_port",
+              "redis_cache",
+              "redis_queue",
+              "redis_socketio",
+              "socketio_port",
+          ):
+              assert "bench set-config " in script and setting in script, setting
+          
+          for name in ("websocket", "queue-short", "queue-long"):
+              env = services[name]["environment"]
+              assert env["FRAPPE_REDIS_CACHE"] == "redis://redis-cache:6379", name
+              assert env["FRAPPE_REDIS_QUEUE"] == "redis://redis-queue:6379", name
+          
+          for name in ("db", "redis-cache", "redis-queue", "frontend"):
+              assert not services[name].get("ports"), f"{name} publishes a host port"
+          
+          print("Configurator receives one complete script; Redis endpoints and port isolation validated.")
+          PY
