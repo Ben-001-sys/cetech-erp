@@ -17,7 +17,7 @@ Docker Compose normally prefixes them with the deployed application/project name
 After ERPNext site creation, enter the backend container and run:
 
 ```bash
-bench --site erp.cetechbpa.com backup --with-files --compress
+bench --site erpnext.benuel.dedyn.io backup --with-files --compress
 ```
 
 Schedule this operationally. Transfer backup archives **off Hetzner** to access-restricted, encrypted object storage; set retention policies and failure alerting. Protect the matching site configuration and encryption key as part of a complete recovery set. Dokploy's system backup alone does not back up ERPNext business data.
@@ -32,7 +32,7 @@ Periodically test recovery in a separate isolated environment using matching ERP
 2. Test an image update on an isolated clone before production.
 3. Update `ERPNEXT_VERSION` in Dokploy to a verified compatible tag; do not track `latest`.
 4. Redeploy while keeping named volumes.
-5. Run `bench --site erp.cetechbpa.com migrate` from the backend container if required by the upstream upgrade notes.
+5. Run `bench --site erpnext.benuel.dedyn.io migrate` from the backend container if required by the upstream upgrade notes.
 6. Confirm site access, assets, workers, scheduler, WebSocket and representative workflows.
 7. An image rollback after DB migrations may be unsafe. Use a compatible verified backup for recovery if necessary.
 
