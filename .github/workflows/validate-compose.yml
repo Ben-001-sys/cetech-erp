@@ -44,15 +44,18 @@ jobs:
           assert isinstance(script_args, list) and len(script_args) == 1, script_args
           script = script_args[0]
           assert script.lstrip().startswith("set -eu"), script
-          for setting in (
-              "db_host",
-              "db_port",
-              "redis_cache",
-              "redis_queue",
-              "redis_socketio",
-              "socketio_port",
-          ):
-              assert "bench set-config " in script and setting in script, setting
+          expected_commands = [
+              "bench set-config -g db_host db",
+              "bench set-config -gp db_port 3306",
+              "bench set-config -g redis_cache redis://redis-cache:6379",
+              "bench set-config -g redis_queue redis://redis-queue:6379",
+              "bench set-config -g redis_socketio redis://redis-queue:6379",
+              "bench set-config -gp socketio_port 9000",
+          ]
+          for line in expected_commands:
+              assert line in script.splitlines(), f"Missing fixed internal config: {line}"
+          for var in ("DB_HOST", "DB_PORT", "REDIS_CACHE", "REDIS_QUEUE", "SOCKETIO_PORT"):
+              assert ("$" + var) not in script, f"Unexpected Compose shell variable: {var}"
           
           for name in ("websocket", "queue-short", "queue-long"):
               env = services[name]["environment"]
