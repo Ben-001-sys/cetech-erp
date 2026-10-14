@@ -1,6 +1,6 @@
 # CETECH ERPNext — Dokploy deployment runbook
 
-**Status: prepared; not deployed.** Target: existing Hetzner server running Dokploy. The hostname erp.cetechbpa.com is proposed, not confirmed.
+**Status: prepared; not deployed.** Target: existing Hetzner server running Dokploy. Intended hostname: **erpnext.benuel.dedyn.io** (confirmed by deployment owner; public DNS and certificate are not yet verified).
 
 ## 1. Inspect the existing server (read-only)
 
@@ -26,10 +26,10 @@ Confirm available RAM/CPU/disk, existing deployed applications, Docker networks,
 3. Deploy target: the existing Hetzner Dokploy server. Enable **Isolated Deployments** to attach the required private network and Dokploy Traefik correctly.
 4. Keep **Auto Deploy disabled** during the first rollout.
 5. In the service's Environment tab, add **ERPNEXT_VERSION=v16.50.0** (revalidate release before deploying) and **DB_PASSWORD** with a strong unique generated value. The actual password must not be committed to GitHub. Optional variables are documented in .env.example.
-6. Choose the final site/domain. Point its DNS A record to Hetzner, then in the **Domains** tab add domain **erp.cetechbpa.com**, selecting **frontend** service and **internal/container port 8080**, with HTTPS via Dokploy.
+6. Verify the DNS A record for **erpnext.benuel.dedyn.io** points to the intended Hetzner public IPv4 address (and verify any AAAA record targets the same server). In the **Domains** tab add **erpnext.benuel.dedyn.io**, selecting **frontend** and **internal/container port 8080**, with HTTPS / Let's Encrypt via Dokploy. Do **not** put `https://` in the domain field.
 7. Use **Preview Compose** and verify secrets are resolved, named volumes remain, and labels/networks point to frontend. Avoid sharing screenshots containing revealed secrets.
 
-The Compose file intentionally has no host-published ports and no extra Traefik. **Do not set FRAPPE_SITE_NAME_HEADER unless the site name differs from the host**.
+The Compose file intentionally has no host-published ports and no extra Traefik. Hostname routing via `FRAPPE_SITE_NAME_HEADER: $host` works when the Bench site name matches the incoming hostname. **Do not set FRAPPE_SITE_NAME_HEADER unless the site name differs from the host**.
 
 ## 3. Validate and deploy
 
@@ -56,7 +56,7 @@ bench list-sites
 Only when no prior site exists, and the hostname has been approved, run in the backend container:
 
 ```bash
-bench new-site erp.cetechbpa.com \
+bench new-site erpnext.benuel.dedyn.io \
   --mariadb-user-host-login-scope='%' \
   --install-app erpnext
 ```
