@@ -1,0 +1,17 @@
+# Never check in secrets, generated site data, backups or deployment-local state.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*id_rsa*
+*id_ed25519*
+backups/
+sites/
+db-data/
+redis-queue-data/
+*.sql
+*.sql.gz
+*.sql.zst
