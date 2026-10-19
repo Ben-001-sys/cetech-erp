@@ -1,3 +1,32 @@
+## Deployment acceptance checkpoint — 2026-10-19
+
+**Site:** `frappe-suite.benuel.dedyn.io`
+**Dokploy Compose project:** `cetecherpfrappeverse-apps-frappe-70jdgs`
+**Custom image:** `ghcr.io/ben-001-sys/cetech-frappeverse:run-39267292226`
+
+The operator confirmed that Frappe site creation, ERPNext installation, HRMS installation, subsequent app installations, `bench --site frappe-suite.benuel.dedyn.io migrate`, cache clear, and scheduler enablement all completed without terminal errors. The migration synchronized DocTypes and dashboards for all eleven applications. Search-index rebuilds for Helpdesk/Raven were enqueued; successful execution of the queued background jobs has **not yet been verified**.
+
+The exact `bench --site frappe-suite.benuel.dedyn.io list-apps` output:
+
+```text
+frappe    16.52.0 UNVERSIONED
+erpnext   16.51.1 UNVERSIONED
+hrms      16.51.0 UNVERSIONED
+payments  0.0.1   UNVERSIONED
+lms       2.66.0  UNVERSIONED
+telephony 0.0.1   UNVERSIONED
+helpdesk  1.31.0  UNVERSIONED
+crm       1.88.0  UNVERSIONED
+insights  3.15.0  UNVERSIONED
+lending   16.6.2  UNVERSIONED
+raven     3.1.0   UNVERSIONED
+```
+
+**Scope of verification:** installed-app list, successful migration, scheduler enabled. **Not yet verified:** DNS/HTTPS login, individual frontend routes, search-index worker completion, functional workflows, backup/restore, load performance, or upgrade testing. Avoid claiming production readiness.
+
+**Next acceptance checks:** HTTP/HTTPS response; normal login; all app routes; `bench doctor` and pending jobs; backend/queue logs; full site backup (including files and encrypted secrets) and restore rehearsal; low-privilege permissions smoke tests.
+
+
 # CETECH Frappeverse — v16 multi-app trial
 
 Independent Frappe **v16** stack for CETECH, hosted through **new** Dokploy Compose service `Frappe` in project `Cetech-Erp-Frappeverse Apps`. This configuration is not a replacement for the existing deployed ERPNext Compose project.
